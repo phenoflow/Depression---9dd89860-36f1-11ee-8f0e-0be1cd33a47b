@@ -1,0 +1,25 @@
+# Kuan V, Denaxas S, Gonzalez-Izquierdo A, Direk K, Bhatti O, Husain S, Sutaria S, Hingorani M, Nitsch D, Parisinos C, Lumbers T, Mathur R, Sofat R, Casas JP, Wong I, Hemingway H, Hingorani A, 2023.
+
+import sys, csv, re
+
+codes = [{"code":"1465.00","system":"readv2"},{"code":"212S.00","system":"readv2"},{"code":"8HHq.00","system":"readv2"},{"code":"9HA0.00","system":"readv2"},{"code":"E2B..00","system":"readv2"},{"code":"E2B1.00","system":"readv2"},{"code":"Eu20400","system":"readv2"},{"code":"Eu32400","system":"readv2"},{"code":"Eu32z11","system":"readv2"},{"code":"Eu32z12","system":"readv2"},{"code":"Eu33z11","system":"readv2"},{"code":"Eu34111","system":"readv2"},{"code":"Eu34112","system":"readv2"},{"code":"Eu34113","system":"readv2"},{"code":"10290.0","system":"med"},{"code":"1055.0","system":"med"},{"code":"10610.0","system":"med"},{"code":"10667.0","system":"med"},{"code":"10720.0","system":"med"},{"code":"10825.0","system":"med"},{"code":"11055.0","system":"med"},{"code":"11252.0","system":"med"},{"code":"11329.0","system":"med"},{"code":"11717.0","system":"med"},{"code":"11913.0","system":"med"},{"code":"12099.0","system":"med"},{"code":"14709.0","system":"med"},{"code":"15099.0","system":"med"},{"code":"15155.0","system":"med"},{"code":"15219.0","system":"med"},{"code":"15220.0","system":"med"},{"code":"16506.0","system":"med"},{"code":"16632.0","system":"med"},{"code":"16861.0","system":"med"},{"code":"17770.0","system":"med"},{"code":"18510.0","system":"med"},{"code":"19696.0","system":"med"},{"code":"20785.0","system":"med"},{"code":"21887.0","system":"med"},{"code":"22806.0","system":"med"},{"code":"23731.0","system":"med"},{"code":"24112.0","system":"med"},{"code":"24117.0","system":"med"},{"code":"24171.0","system":"med"},{"code":"25563.0","system":"med"},{"code":"2560.0","system":"med"},{"code":"25697.0","system":"med"},{"code":"27491.0","system":"med"},{"code":"27677.0","system":"med"},{"code":"28248.0","system":"med"},{"code":"28677.0","system":"med"},{"code":"28756.0","system":"med"},{"code":"28863.0","system":"med"},{"code":"29342.0","system":"med"},{"code":"29451.0","system":"med"},{"code":"29520.0","system":"med"},{"code":"2970.0","system":"med"},{"code":"29784.0","system":"med"},{"code":"31757.0","system":"med"},{"code":"32159.0","system":"med"},{"code":"324.0","system":"med"},{"code":"3291.0","system":"med"},{"code":"3292.0","system":"med"},{"code":"32941.0","system":"med"},{"code":"33469.0","system":"med"},{"code":"34390.0","system":"med"},{"code":"35274.0","system":"med"},{"code":"35671.0","system":"med"},{"code":"36616.0","system":"med"},{"code":"37764.0","system":"med"},{"code":"41022.0","system":"med"},{"code":"41989.0","system":"med"},{"code":"4323.0","system":"med"},{"code":"43292.0","system":"med"},{"code":"43324.0","system":"med"},{"code":"44300.0","system":"med"},{"code":"4639.0","system":"med"},{"code":"47009.0","system":"med"},{"code":"47731.0","system":"med"},{"code":"52678.0","system":"med"},{"code":"543.0","system":"med"},{"code":"56273.0","system":"med"},{"code":"56609.0","system":"med"},{"code":"5879.0","system":"med"},{"code":"59386.0","system":"med"},{"code":"595.0","system":"med"},{"code":"5987.0","system":"med"},{"code":"6482.0","system":"med"},{"code":"6546.0","system":"med"},{"code":"655.0","system":"med"},{"code":"6854.0","system":"med"},{"code":"6932.0","system":"med"},{"code":"6950.0","system":"med"},{"code":"7011.0","system":"med"},{"code":"73991.0","system":"med"},{"code":"7604.0","system":"med"},{"code":"7737.0","system":"med"},{"code":"7749.0","system":"med"},{"code":"7953.0","system":"med"},{"code":"8478.0","system":"med"},{"code":"8584.0","system":"med"},{"code":"8826.0","system":"med"},{"code":"8851.0","system":"med"},{"code":"8902.0","system":"med"},{"code":"9055.0","system":"med"},{"code":"9183.0","system":"med"},{"code":"9211.0","system":"med"},{"code":"9667.0","system":"med"},{"code":"98252.0","system":"med"},{"code":"98346.0","system":"med"},{"code":"98414.0","system":"med"},{"code":"98417.0","system":"med"}];
+REQUIRED_CODES = 1;
+with open(sys.argv[1], 'r') as file_in, open('depression-potential-cases.csv', 'w', newline='') as file_out:
+    csv_reader = csv.DictReader(file_in)
+    csv_writer = csv.DictWriter(file_out, csv_reader.fieldnames + ["depression---primary-identified"])
+    csv_writer.writeheader();
+    codes_identified = 0;
+    for row in csv_reader:
+        newRow = row.copy();
+        for cell in row:
+            # Iterate cell lists (e.g. codes)
+            for item in re.findall(r'\(([^,]*)\,', row[cell]):
+                if(item in list(map(lambda code: code['code'], codes))): codes_identified+=1;
+                if(codes_identified>=REQUIRED_CODES):
+                    newRow["depression---primary-identified"] = "CASE";
+                    break;
+            if(codes_identified>=REQUIRED_CODES): break;
+        if(codes_identified<REQUIRED_CODES):
+            newRow["depression---primary-identified"] = "UNK";
+        codes_identified=0;
+        csv_writer.writerow(newRow)
